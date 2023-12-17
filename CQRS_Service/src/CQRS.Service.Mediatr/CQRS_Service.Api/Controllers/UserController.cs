@@ -1,4 +1,6 @@
-﻿using CQRS_Service.Domain.Entities;
+﻿using CQRS_Service.Application.UseCases.User.Commands;
+using CQRS_Service.Application.UseCases.Users.Queries;
+using CQRS_Service.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,17 +20,36 @@ namespace CQRS_Service.Api.Controllers
         }
 
         [HttpGet]
-        public async ValueTask<IActionResult> CreateAsync(User user)
+        public async ValueTask<IActionResult> GetAllUser()
         {
-            var result = new User()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Password = user.Password,
-            };
-            await _mediator.Send(user);
+            var result = await _mediator.Send(new GetAllUserQuery());
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async ValueTask<IActionResult> CreateAsync(CreateUserCommand command)
+        {
+            await _mediator.Send(command);
             return Ok("Created");
         }
+        [HttpGet]
+        public async ValueTask<IActionResult> GetByIdUSer(int id)
+        {
+            var result = await _mediator.Send(new GetByIdUserQuery() { Id = id });
+            return Ok(result);
+        }
+        [HttpPut]
+        public async ValueTask<IActionResult> UpdateUserAsync(UpdateUserCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok("Updated");
+        }
+        [HttpDelete]
+        public async ValueTask<IActionResult> DeleteUserAsync(int id)
+        {
+            await _mediator.Send(new DeleteUserCommand() { Id = id });
+            return Ok("Deleted");
+        }
+
     }
 }
