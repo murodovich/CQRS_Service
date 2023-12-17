@@ -17,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQRS_Service.Domain\CQRS_Service.Domain.csproj" />
+    <Folder Include="UseCases\Users\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\User\Queries\" />
+    <ProjectReference Include="..\CQRS_Service.Domain\CQRS_Service.Domain.csproj" />
   </ItemGroup>
 
 </Project>
