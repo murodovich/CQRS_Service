@@ -1,11 +1,7 @@
 ﻿using CQRS_Service.Application.UseCases.User.Commands;
 using CQRS_Service.Application.UseCases.Users.Queries;
-using CQRS_Service.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-
 namespace CQRS_Service.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
