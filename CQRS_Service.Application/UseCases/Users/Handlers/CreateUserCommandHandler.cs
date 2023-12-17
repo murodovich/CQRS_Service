@@ -4,8 +4,9 @@ using MediatR;
 
 namespace CQRS_Service.Application.UseCases.Users.Handlers
 {
-    public class CreateUserCommandHandler : AsyncRequestHandler<CreateUserCommand>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
     {
+
         private readonly ICQRSDBContext _dbContext;
 
         public CreateUserCommandHandler(ICQRSDBContext dbContext)
@@ -13,7 +14,7 @@ namespace CQRS_Service.Application.UseCases.Users.Handlers
             _dbContext = dbContext;
         }
 
-        protected async override Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var person = new Domain.Entities.User()
             {
@@ -24,7 +25,8 @@ namespace CQRS_Service.Application.UseCases.Users.Handlers
             };
 
             await _dbContext.Users.AddAsync(person);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            var res = await _dbContext.SaveChangesAsync(cancellationToken);
+            return res > 0;
         }
     }
 }
